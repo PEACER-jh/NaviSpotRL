@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<robot name="panoramic_rover">
+
+    <!-- ==================== 材质 ==================== -->
+    <material name="black">
+        <color rgba="0.2 0.2 0.2 1.0"/>
+    </material>
+    <material name="grey">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+    </material>
+    <material name="dark_grey">
+        <color rgba="0.3 0.3 0.3 1.0"/>
+    </material>
+
+    <!-- ==================== 虚拟基座 ==================== -->
+    <link name="base_link_frd"/>
+
+    <!-- ==================== 车身 ==================== -->
+    <link name="base_link">
+        <inertial>
+            <mass value="2.0"/>
+            <origin xyz="0 0 0.04" rpy="0 0 0"/>
+            <inertia ixx="0.02" iyy="0.03" izz="0.04" ixy="0.0" ixz="0.0" iyz="0.0"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <box size="0.25 0.18 0.08"/>
+            </geometry>
+            <material>
+                <color rgba="0.1 0.3 0.8 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.25 0.18 0.08"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_link_frd"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    </joint>
+
+    <!-- ==================== 四轮差速系统 ==================== -->
+    <!-- 左前轮（主动） -->
+    <link name="left_wheel_link">
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0005" iyy="0.001" izz="0.0005" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        </collision>
+    </link>
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <origin xyz="0.08 0.12 -0.01" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- 右前轮（主动） -->
+    <link name="right_wheel_link">
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0005" iyy="0.001" izz="0.0005" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        </collision>
+    </link>
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <origin xyz="0.08 -0.12 -0.01" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- 左后轮（主动） -->
+    <link name="left_wheel_back_link">
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0005" iyy="0.001" izz="0.0005" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        </collision>
+    </link>
+    <joint name="left_wheel_back_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel_back_link"/>
+        <origin xyz="-0.08 0.12 -0.01" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- 右后轮（主动） -->
+    <link name="right_wheel_back_link">
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0005" iyy="0.001" izz="0.0005" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.04" length="0.015"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        </collision>
+    </link>
+    <joint name="right_wheel_back_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel_back_link"/>
+        <origin xyz="-0.08 -0.12 -0.01" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- ==================== 全景相机系统 ==================== -->
+    <!-- 前视相机 -->
+    <link name="camera_front_link"/>
+    <link name="camera_front_optical_link">
+        <visual>
+            <geometry>
+                <box size="0.005 0.005 0.005"/>
+            </geometry>
+            <material>
+                <color rgba="0.0 0.4 1.0 1.0"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="camera_front_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_front_link"/>
+        <origin xyz="0.13 0 0.02" rpy="0 0 0"/>
+    </joint>
+    <joint name="camera_front_optical_joint" type="fixed">
+        <parent link="camera_front_link"/>
+        <child link="camera_front_optical_link"/>
+        <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    </joint>
+
+    <!-- 后视相机 -->
+    <link name="camera_back_link"/>
+    <link name="camera_back_optical_link">
+        <visual>
+            <geometry>
+                <box size="0.005 0.005 0.005"/>
+            </geometry>
+            <material>
+                <color rgba="0.0 1.0 0.3 1.0"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="camera_back_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_back_link"/>
+        <origin xyz="-0.13 0 0.02" rpy="0 0 3.14159"/>
+    </joint>
+    <joint name="camera_back_optical_joint" type="fixed">
+        <parent link="camera_back_link"/>
+        <child link="camera_back_optical_link"/>
+        <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    </joint>
+
+    <!-- ==================== 轮子摩擦力配置 ==================== -->
+    <gazebo reference="left_wheel_link">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+    </gazebo>
+    <gazebo reference="right_wheel_link">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+    </gazebo>
+    <gazebo reference="left_wheel_back_link">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+    </gazebo>
+    <gazebo reference="right_wheel_back_link">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+    </gazebo>
+
+    <!-- ==================== 地面接触参数 ==================== -->
+    <gazebo>
+        <plugin name="ground_truth_plugin" filename="libgazebo_ros_control.so"/>
+    </gazebo>
+
+</robot>
